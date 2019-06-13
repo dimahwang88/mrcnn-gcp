@@ -128,8 +128,9 @@ def display_instances(image, boxes, masks, class_ids, class_names,
     masked_image = image.astype(np.uint32).copy()
     mskimg_np = masked_image.astype(np.uint8)
 
-    log_file = open('det_20190604_1718.txt', 'a')
-    dump_path = "dump/img_%04d.png" % (cnt+1)
+    log_file = open('/mnt/gcs-bucket/left-cam/det_20190604_1718.txt', 'a')
+    #dump_path = "dump/img_%04d.png" % (cnt+1)
+    dump_path = "/mnt/gcs-bucket/left-cam/img_%04d.png" % (cnt+1)
     
     for i in range(N):
         color = colors[i]
@@ -179,7 +180,8 @@ def display_instances(image, boxes, masks, class_ids, class_names,
 
     #ax.imshow(masked_image.astype(np.uint8))
     #cv2.imwrite(dump_path,cv2.cvtColor(masked_image.astype(np.uint8), cv2.COLOR_RGB2BGR))
-    cv2.imwrite(dump_path,cv2.cvtColor(mskimg_np, cv2.COLOR_RGB2BGR))    
+    if cnt % 900 == 0:
+        cv2.imwrite(dump_path,cv2.cvtColor(mskimg_np, cv2.COLOR_RGB2BGR))    
     log_file.close()
     #if auto_show:
     #    plt.show()
