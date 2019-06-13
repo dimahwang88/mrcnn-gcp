@@ -36,7 +36,7 @@ if not os.path.exists(COCO_MODEL_PATH):
 
 # Directory of images to run detection on
 #IMAGE_DIR = os.path.join(ROOT_DIR, "images/images_10fps")
-IMAGE_DIR = '/home/dmitriy.khvan/data/suwon-samsung/img'
+IMAGE_DIR = '/mnt/gcs-bucket/2019-06-13_id6629/ffmpeg-img/left-cam'
 
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
