@@ -2502,7 +2502,7 @@ class MaskRCNN():
         masks: [H, W, N] instance binary masks
         """
         assert self.mode == "inference", "Create model in inference mode."
-        print(len(images))
+        #print(len(images))
         assert len(
             images) == self.config.BATCH_SIZE, "len(images) must be equal to BATCH_SIZE"
 
@@ -2534,7 +2534,7 @@ class MaskRCNN():
         # Run object detection
 #        detections, _, _, mrcnn_mask, _, _, _ =\
         detections, _, _, _, _, _ =\
-            self.keras_model.predict([molded_images, image_metas, anchors], verbose=1)
+            self.keras_model.predict([molded_images, image_metas, anchors], verbose=0)
         # Process detections
         results = []
         for i, image in enumerate(images):

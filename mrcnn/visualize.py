@@ -125,8 +125,8 @@ def display_instances(image, boxes, masks, class_ids, class_names,
     #ax.axis('off')
     #ax.set_title(title)
 
-    masked_image = image.astype(np.uint32).copy()
-    mskimg_np = masked_image.astype(np.uint8)
+#    masked_image = image.astype(np.uint32).copy()
+    mskimg_np = image.astype(np.uint8)
 
     log_file = open('/mnt/gcs-bucket/2019-06-13_id6629/left-cam/det_20190604_1718.txt', 'a')
     #dump_path = "dump/img_%04d.png" % (cnt+1)
@@ -141,10 +141,10 @@ def display_instances(image, boxes, masks, class_ids, class_names,
             continue
         y1, x1, y2, x2 = boxes[i]
 
-        if show_bbox:
-            p = patches.Rectangle((x1, y1), x2 - x1, y2 - y1, linewidth=2,
-                                alpha=0.7, linestyle="dashed",
-                                edgecolor=color, facecolor='none')
+        #if show_bbox:
+        #    p = patches.Rectangle((x1, y1), x2 - x1, y2 - y1, linewidth=2,
+        #                        alpha=0.7, linestyle="dashed",
+        #                        edgecolor=color, facecolor='none')
 #            ax.add_patch(p)
 
         # Label
@@ -160,11 +160,12 @@ def display_instances(image, boxes, masks, class_ids, class_names,
 
         # Mask
         #mask = masks[:, :, i]
-        if show_mask:
-            masked_image = apply_mask(masked_image, mask, color)
+        #if show_mask:
+        #    masked_image = apply_mask(masked_image, mask, color)
 
-        log_file.write(str(cnt+1)+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+"\n")        
-        cv2.rectangle(mskimg_np, (x1, y1), (x2, y2), (255,0,0), 2)
+        log_file.write(str(cnt+1)+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+"\n") 
+        if cnt % 100 == 0:
+            cv2.rectangle(mskimg_np, (x1, y1), (x2, y2), (255,0,0), 2)
 
         # Mask Polygon
         # Pad to ensure proper polygons for masks that touch image edges.
@@ -180,7 +181,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
 
     #ax.imshow(masked_image.astype(np.uint8))
     #cv2.imwrite(dump_path,cv2.cvtColor(masked_image.astype(np.uint8), cv2.COLOR_RGB2BGR))
-    if cnt % 900 == 0:
+    if cnt % 100 == 0:
         cv2.imwrite(dump_path,cv2.cvtColor(mskimg_np, cv2.COLOR_RGB2BGR))    
     log_file.close()
     #if auto_show:

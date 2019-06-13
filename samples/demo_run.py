@@ -8,8 +8,14 @@ import matplotlib
 import matplotlib.pyplot as plt
 import glob
 import time
+import cv2
+
+import requests
+import json
+from datetime import datetime
 
 # Root directory of the project
+camera_id = sys.argv[1]
 ROOT_DIR = os.path.abspath("../")
 
 # Import Mask RCNN
@@ -35,8 +41,8 @@ if not os.path.exists(COCO_MODEL_PATH):
     utils.download_trained_weights(COCO_MODEL_PATH)
 
 # Directory of images to run detection on
-#IMAGE_DIR = os.path.join(ROOT_DIR, "images/images_10fps")
-IMAGE_DIR = '/mnt/gcs-bucket/2019-06-13_id6629/ffmpeg-img/left-cam'
+#IMAGE_DIR = '/mnt/gcs-bucket/2019-06-13_id6629/ffmpeg-img/' + camera_id
+IMAGE_DIR = '/mnt/gcs-bucket/2019-06-13_id6629/%s/test' % camera_id
 
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
@@ -74,19 +80,46 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors',
                'teddy bear', 'hair drier', 'toothbrush']
 
-count=0
-#timestr = time.strftime("%Y%m%d-%H%M%S")
-#log_file = open('log_20190602_0022.txt', 'a')
+now = datetime.now()
+date_time = now.strftime("%m%d%Y_%H%M%S")
+log_filename = '/mnt/gcs-bucket/2019-06-13_id6629/%s/det_%s.txt' %(camera_id,date_time)
+#print(log_filename)
 
-for filename in sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))):
-    print(filename)
+webhook_url = 'https://hooks.slack.com/services/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'
+log_file = open(log_filename, 'a')
+
+for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')))):
+    start = time.time()    
     image = skimage.io.imread(filename)
-    # Run detection
-    start = time.time()
-    results = model.detect([image], verbose=1)
-    end = time.time()
-    print(end - start)
+    results = model.detect([image], verbose=0)
     r = results[0]
-    visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], class_names, r['scores'], count)
-    count=count+1
-#log_file.close()
+    #boxes
+    is_dump = (num % 100 == 0)
+    #dump_path = "/mnt/gcs-bucket/2019-06-13_id6629/left-cam/img_%05d.png" % (num+1)
+    dump_path = "/mnt/gcs-bucket/2019-06-13_id6629/%s/img_%05d.png" %(camera_id, num+1) 
+    N = r['rois'].shape[0]
+    
+    for i in range(N):
+        y1, x1, y2, x2 = r['rois'][i]
+        log_file.write(str(num+1)+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+"\n") 
+        
+        if is_dump:
+            cv2.rectangle(image, (x1, y1), (x2, y2), (255,0,0), 2)
+    if is_dump:
+        cv2.imwrite(dump_path,cv2.cvtColor(image, cv2.COLOR_RGB2BGR))    
+        slack_msg3 = {'text': 'frame: ' + str(num) + ' dumped: ' + dump_path}
+        requests.post(webhook_url, json.dumps(slack_msg3))  
+
+    #visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], class_names, r['scores'], count)
+    
+    end = time.time()
+    slack_msg1 = {'text': 'processing input: ' + filename}
+    slack_msg2 = {'text': 'processing time per frame: ' + str(end-start) + ' s.'}    
+    if num % 10 == 0:
+        requests.post(webhook_url, json.dumps(slack_msg1))        
+        requests.post(webhook_url, json.dumps(slack_msg2))  
+
+log_file.close()
+slack_msg4 = {'text': 'detection finished at frame : ' + str(num) + ' .Check results!'}
+requests.post(webhook_url, json.dumps(slack_msg4))  
+        
