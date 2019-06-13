@@ -41,8 +41,8 @@ if not os.path.exists(COCO_MODEL_PATH):
     utils.download_trained_weights(COCO_MODEL_PATH)
 
 # Directory of images to run detection on
-#IMAGE_DIR = '/mnt/gcs-bucket/2019-06-13_id6629/ffmpeg-img/' + camera_id
-IMAGE_DIR = '/mnt/gcs-bucket/2019-06-13_id6629/%s/test' % camera_id
+IMAGE_DIR = '/mnt/gcs-bucket/2019-06-13_id6629/ffmpeg-img/' + camera_id
+#IMAGE_DIR = '/mnt/gcs-bucket/2019-06-13_id6629/%s/test' % camera_id
 
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
