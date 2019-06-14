@@ -50,7 +50,7 @@ class InferenceConfig(coco.CocoConfig):
     GPU_COUNT = 1
     IMAGES_PER_GPU = 1
     BATCH_SIZE = GPU_COUNT * IMAGES_PER_GPU
-    NUM_CLASSES = 2
+    #NUM_CLASSES = 2
 
 config = InferenceConfig()
 config.display()
