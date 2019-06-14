@@ -81,7 +81,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 
 now = datetime.now()
 date_time = now.strftime("%m%d%Y_%H%M%S")
-log_filename = '/mnt/bepro-bucket/2019-06-13_id6629/%s/det_%s_%s.txt' % (camera_id, date_time)
+log_filename = '/mnt/bepro-bucket/2019-06-13_id6629/%s/det_%s_%s.txt' % (camera_id, date_time, camera_id)
 
 #print(log_filename)
 
