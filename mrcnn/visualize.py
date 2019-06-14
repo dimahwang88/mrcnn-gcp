@@ -128,9 +128,9 @@ def display_instances(image, boxes, masks, class_ids, class_names,
 #    masked_image = image.astype(np.uint32).copy()
     mskimg_np = image.astype(np.uint8)
 
-    log_file = open('/mnt/gcs-bucket/2019-06-13_id6629/left-cam/det_20190604_1718.txt', 'a')
+    log_file = open('/mnt/bepro-bucket/2019-06-13_id6629/left-cam/det_20190604_1718.txt', 'a')
     #dump_path = "dump/img_%04d.png" % (cnt+1)
-    dump_path = "/mnt/gcs-bucket/2019-06-13_id6629/left-cam/img_%04d.png" % (cnt+1)
+    dump_path = "/mnt/bepro-bucket/2019-06-13_id6629/left-cam/img_%04d.png" % (cnt+1)
     
     for i in range(N):
         color = colors[i]

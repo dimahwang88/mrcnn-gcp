@@ -41,7 +41,7 @@ if not os.path.exists(COCO_MODEL_PATH):
     utils.download_trained_weights(COCO_MODEL_PATH)
 
 # Directory of images to run detection on
-IMAGE_DIR = '/mnt/gcs-bucket/2019-06-13_id6629/ffmpeg-img/' + camera_id
+IMAGE_DIR = '/mnt/bepro-bucket/2019-06-13_id6629/ffmpeg-img/' + camera_id
 #IMAGE_DIR = '/mnt/gcs-bucket/2019-06-13_id6629/%s/test' % camera_id
 
 class InferenceConfig(coco.CocoConfig):
@@ -82,7 +82,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 
 now = datetime.now()
 date_time = now.strftime("%m%d%Y_%H%M%S")
-log_filename = '/mnt/gcs-bucket/2019-06-13_id6629/%s/det_%s.txt' %(camera_id,date_time)
+log_filename = '/mnt/bepro-bucket/2019-06-13_id6629/%s/det_%s.txt' %(camera_id,date_time)
 #print(log_filename)
 
 webhook_url = 'https://hooks.slack.com/services/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'
@@ -96,7 +96,7 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     #boxes
     is_dump = (num % 200 == 0)
     #dump_path = "/mnt/gcs-bucket/2019-06-13_id6629/left-cam/img_%05d.png" % (num+1)
-    dump_path = "/mnt/gcs-bucket/2019-06-13_id6629/%s/img_%05d.png" %(camera_id, num+1) 
+    dump_path = "/mnt/bepro-bucket/2019-06-13_id6629/%s/img_%05d.png" %(camera_id, num+1) 
     N = r['rois'].shape[0]
     
     for i in range(N):
