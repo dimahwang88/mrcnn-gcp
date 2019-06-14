@@ -110,7 +110,7 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
         requests.post(webhook_url, json.dumps(slack_msg3))  
 
     end = time.time()
-    slack_msg1 = {'text': 'processing input: ' + filename}
+    slack_msg1 = {'text': 'processing input: ' + filename + '-' +str(cam_id)}
     slack_msg2 = {'text': 'processing time per frame: ' + str(end-start) + ' s.'}    
     if num % 10 == 0:
         requests.post(webhook_url, json.dumps(slack_msg1))        
