@@ -86,7 +86,7 @@ log_filename = '/mnt/gcs-bucket/2019-06-13_id6629/%s/det_%s.txt' %(camera_id,dat
 #print(log_filename)
 
 webhook_url = 'https://hooks.slack.com/services/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'
-log_file = open(log_filename, 'a')
+log_file = open(log_filename, 'w+')
 
 for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')))):
     start = time.time()    
