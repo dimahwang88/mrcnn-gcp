@@ -76,8 +76,8 @@ class Config(object):
     NUM_CLASSES = 1  # Override in sub-classes
 
     # Length of square anchor side in pixels
-    RPN_ANCHOR_SCALES = (32, 64, 128, 256, 512)
-#    RPN_ANCHOR_SCALES = (32, 64, 128, 256)
+#    RPN_ANCHOR_SCALES = (32, 64, 128, 256, 512)
+    RPN_ANCHOR_SCALES = (32, 64, 128, 256)
 #    RPN_ANCHOR_SCALES = (32, 64, 128)
 
     # Ratios of anchors at each cell (width/height)
@@ -88,7 +88,7 @@ class Config(object):
     # Anchor stride
     # If 1 then anchors are created for each cell in the backbone feature map.
     # If 2, then anchors are created for every other cell, and so on.
-    RPN_ANCHOR_STRIDE = 4
+    RPN_ANCHOR_STRIDE = 2
 
     # Non-max suppression threshold to filter RPN proposals.
     # You can increase this during training to generate more propsals.
