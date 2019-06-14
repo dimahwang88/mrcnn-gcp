@@ -94,7 +94,7 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     results = model.detect([image], verbose=0)
     r = results[0]
     #boxes
-    is_dump = (num % 200 == 0)
+    is_dump = (num % 300 == 0)
     dump_path = "/home/dmitriy.khvan/dump-img/img_%05d.png" %(camera_id, num+1) 
     N = r['rois'].shape[0]
     
