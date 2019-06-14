@@ -76,8 +76,8 @@ class Config(object):
     NUM_CLASSES = 1  # Override in sub-classes
 
     # Length of square anchor side in pixels
-#    RPN_ANCHOR_SCALES = (32, 64, 128, 256, 512)
-    RPN_ANCHOR_SCALES = (32, 64, 128, 256)
+    RPN_ANCHOR_SCALES = (32, 64, 128, 256, 512)
+#    RPN_ANCHOR_SCALES = (32, 64, 128, 256)
 #    RPN_ANCHOR_SCALES = (32, 64, 128)
 
     # Ratios of anchors at each cell (width/height)
