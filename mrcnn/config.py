@@ -52,8 +52,8 @@ class Config(object):
     # You can also provide a callable that should have the signature
     # of model.resnet_graph. If you do so, you need to supply a callable
     # to COMPUTE_BACKBONE_SHAPE as well
-#    BACKBONE = "resnet101"
-    BACKBONE = "resnet50"
+    BACKBONE = "resnet101"
+#    BACKBONE = "resnet50"
 
     # Only useful if you supply a callable to BACKBONE. Should compute
     # the shape of each layer of the FPN Pyramid.
@@ -88,7 +88,7 @@ class Config(object):
     # Anchor stride
     # If 1 then anchors are created for each cell in the backbone feature map.
     # If 2, then anchors are created for every other cell, and so on.
-    RPN_ANCHOR_STRIDE = 2
+    RPN_ANCHOR_STRIDE = 1
 
     # Non-max suppression threshold to filter RPN proposals.
     # You can increase this during training to generate more propsals.
