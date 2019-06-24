@@ -88,16 +88,16 @@ log_filename = '/mnt/bepro-bucket/2019-06-13_id6629/%s/det_%s_%s.txt' % (camera_
 webhook_url = 'https://hooks.slack.com/services/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'
 log_file = open(log_filename, 'w+')
 
-print(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime))
+#print(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime))
 
-for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')))):
+for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)):
     start = time.time()    
     image = skimage.io.imread(filename)
     results = model.detect([image], verbose=0)
     r = results[0]
     #boxes
     is_dump = (num % 300 == 0)
-    dump_path = "/mnt/bepro-bucket/2019-06-13_id6629/%s/%s.png" %(camera_id, filename) 
+    dump_path = "/mnt/bepro-bucket/2019-06-13_id6629/%s/%s" %(camera_id, filename) 
     N = r['rois'].shape[0]
     
     for i in range(N):
