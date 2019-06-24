@@ -97,7 +97,7 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     r = results[0]
     #boxes
     is_dump = (num % 300 == 0)
-    dump_path = "/mnt/bepro-bucket/2019-06-13_id6629/%s/%s" %(camera_id, filename) 
+    dump_path = "/mnt/bepro-bucket/2019-06-13_id6629/%s/dump-%06d.jpg" %(camera_id, num+1)
     N = r['rois'].shape[0]
     
     for i in range(N):
