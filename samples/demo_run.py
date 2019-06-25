@@ -81,14 +81,11 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 
 now = datetime.now()
 date_time = now.strftime("%m%d%Y_%H%M%S")
-log_filename = '/mnt/bepro-bucket/2019-06-13_id6629/%s/det_%s_%s.txt' % (camera_id, date_time, camera_id)
-
-#print(log_filename)
+#log_filename = '/mnt/bepro-bucket/2019-06-13_id6629/%s/det_%s_%s.txt' % (camera_id, date_time, camera_id)
+log_filename = '/home/dmitriy.khvan/mrcnn-gcp/samples/dump/det_%s_%s.txt' % (date_time, camera_id)
 
 webhook_url = 'https://hooks.slack.com/services/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'
 log_file = open(log_filename, 'w')
-
-#print(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime))
 
 for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)):
     start = time.time()    
@@ -96,8 +93,9 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     results = model.detect([image], verbose=0)
     r = results[0]
     #boxes
-    is_dump = (num % 300 == 0)
-    dump_path = "/mnt/bepro-bucket/2019-06-13_id6629/%s/dump-%06d.jpg" %(camera_id, num+1)
+    is_dump = (num % 500 == 0)
+ #   dump_path = "/mnt/bepro-bucket/2019-06-13_id6629/%s/dump-%06d.jpg" %(camera_id, num+1)
+    dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/dump-%06d.jpg" %(num+1)
     N = r['rois'].shape[0]
     
     for i in range(N):
@@ -114,13 +112,14 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
         # typically the above line would do. however this is used to ensure that the file is written
         os.fsync(log_file.fileno()) 
 
-        slack_msg3 = {'text': 'frame: ' + str(num) + ' dumped: ' + dump_path}
-        requests.post(webhook_url, json.dumps(slack_msg3))  
+        #slack_msg3 = {'text': 'frame: ' + str(num) + ' dumped: ' + dump_path}
+        #requests.post(webhook_url, json.dumps(slack_msg3))  
 
     end = time.time()
     slack_msg1 = {'text': 'processing input: ' + filename + '-' +str(camera_id)}
     slack_msg2 = {'text': 'processing time per frame: ' + str(end-start) + ' s.'}    
-    if num % 10 == 0:
+    
+    if num % 100 == 0:
         requests.post(webhook_url, json.dumps(slack_msg1))        
         requests.post(webhook_url, json.dumps(slack_msg2))  
 
