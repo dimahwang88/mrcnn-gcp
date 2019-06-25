@@ -86,7 +86,7 @@ log_filename = '/mnt/bepro-bucket/2019-06-13_id6629/%s/det_%s_%s.txt' % (camera_
 #print(log_filename)
 
 webhook_url = 'https://hooks.slack.com/services/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'
-log_file = open(log_filename, 'w+')
+log_file = open(log_filename, 'w')
 
 #print(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime))
 
@@ -107,7 +107,13 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
         if is_dump:
             cv2.rectangle(image, (x1, y1), (x2, y2), (255,0,0), 2)
     if is_dump:
-        cv2.imwrite(dump_path,cv2.cvtColor(image, cv2.COLOR_RGB2BGR))    
+        cv2.imwrite(dump_path,cv2.cvtColor(image, cv2.COLOR_RGB2BGR)) 
+        
+        #https://stackoverflow.com/questions/19756329/can-i-save-a-text-file-in-python-without-closing-it
+        log_file.flush()
+        # typically the above line would do. however this is used to ensure that the file is written
+        os.fsync(log_file.fileno()) 
+
         slack_msg3 = {'text': 'frame: ' + str(num) + ' dumped: ' + dump_path}
         requests.post(webhook_url, json.dumps(slack_msg3))  
 
