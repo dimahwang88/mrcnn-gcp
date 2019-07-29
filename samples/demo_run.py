@@ -108,7 +108,7 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
 
     is_dump = (num % 250 == 0) 
 
-    dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/dump-%06d.jpg" %(num+start_frame_idx)
+    dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/dump-%06d.jpg" %(num+int(start_frame_idx))
     N = r['rois'].shape[0]
 
     for i in range(N):
@@ -116,7 +116,7 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
             continue
 
         y1, x1, y2, x2 = r['rois'][i]
-        log_file.write(str(num+start_frame_idx)+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+','+str(det_score[i])+"\n") 
+        log_file.write(str(num+int(start_frame_idx))+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+','+str(det_score[i])+"\n") 
 
         if is_dump:
             cv2.rectangle(image, (x1, y1), (x2, y2), (255,0,0), 2)
