@@ -108,7 +108,7 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
 
     is_dump = (num % 250 == 0) 
 
-    dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/dump-%06d.jpg" %(num+1)
+    dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/dump-%06d.jpg" %(num+start_frame_idx)
     N = r['rois'].shape[0]
 
     for i in range(N):
