@@ -104,7 +104,7 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     class_id = r['class_ids']
     det_score = r['scores']
 
-    is_dump = (num % 500 == 0) 
+    is_dump = (num % 250 == 0) 
 
     dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/dump-%06d.jpg" %(num+1)
     N = r['rois'].shape[0]
