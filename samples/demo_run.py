@@ -86,7 +86,7 @@ date_time = now.strftime("%m%d%Y_%H%M%S")
 #log_filename = '/home/dmitriy.khvan/mrcnn-gcp/samples/dump/det_%s_%s.txt' % (date_time, camera_id)
 
 ### temp right
-log_filename = '/home/dmitriy.khvan/mrcnn-gcp/samples/dump/det_07052019_184633_right-cam.txt'
+log_filename = '/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/det_07052019_184633_right-cam.txt'
 
 webhook_url = 'https://hooks.slack.com/services/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'
 #log_file = open(log_filename, 'w')
@@ -113,8 +113,8 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
 
     print('classes')
     print(class_id)
-    print('scores')
-    print(det_score)    
+    #print('scores')
+    #print(det_score)    
 
     is_dump = (num % 500 == 0) 
 
