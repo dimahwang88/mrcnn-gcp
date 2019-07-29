@@ -41,7 +41,8 @@ if not os.path.exists(COCO_MODEL_PATH):
     utils.download_trained_weights(COCO_MODEL_PATH)
 
 # Directory of images to run detection on
-IMAGE_DIR = '/home/dmitriy.khvan/ffmpeg-img/'
+#IMAGE_DIR = '/home/dmitriy.khvan/ffmpeg-img/'
+IMAGE_DIR = '/mnt/bepro-data/data/8029/img1/'
 
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
