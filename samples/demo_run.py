@@ -112,7 +112,7 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     N = r['rois'].shape[0]
 
     for i in range(N):
-        if class_id[i] != 1 or det_score[i] < 0.80:
+        if class_id[i] != 1 or det_score[i] < 0.70:
             continue
 
         y1, x1, y2, x2 = r['rois'][i]
