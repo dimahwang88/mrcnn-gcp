@@ -82,17 +82,10 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 
 now = datetime.now()
 date_time = now.strftime("%m%d%Y_%H%M%S")
-#log_filename = '/mnt/bepro-bucket/2019-06-13_id6629/%s/det_%s_%s.txt' % (camera_id, date_time, camera_id)
-#log_filename = '/home/dmitriy.khvan/mrcnn-gcp/samples/dump/det_%s_%s.txt' % (date_time, camera_id)
-
-### temp right
-log_filename = '/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/det_07052019_184633_right-cam.txt'
+log_filename = '/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/det_%s_%s.txt' % (date_time, camera_id)
 
 webhook_url = 'https://hooks.slack.com/services/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'
-#log_file = open(log_filename, 'w')
-
-#### temp left
-log_file = open(log_filename, 'a')
+log_file = open(log_filename, 'w')
 
 #results.append({
 #    "rois": final_rois,
