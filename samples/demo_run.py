@@ -104,11 +104,6 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     class_id = r['class_ids']
     det_score = r['scores']
 
-    print('classes')
-    print(class_id)
-    #print('scores')
-    #print(det_score)    
-
     is_dump = (num % 500 == 0) 
 
     dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/dump-%06d.jpg" %(num+1)
@@ -116,11 +111,10 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
 
     for i in range(N):
         if class_id[i] != 1:
-            print(class_id[i])
             continue
 
         y1, x1, y2, x2 = r['rois'][i]
-        log_file.write(str(num+1)+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+"\n") 
+        log_file.write(str(num+1)+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+','+str(det_score[i])+"\n") 
 
         if is_dump:
             cv2.rectangle(image, (x1, y1), (x2, y2), (255,0,0), 2)
