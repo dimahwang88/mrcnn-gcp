@@ -114,11 +114,12 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/dump-%06d.jpg" %(num+1)
     N = r['rois'].shape[0]
 
-    print(N,len(class_id))
-    
     for i in range(N):
-        y1, x1, y2, x2 = r['rois'][i]
+        if class_id[i] != 1:
+            print(class_id[i])
+            continue
 
+        y1, x1, y2, x2 = r['rois'][i]
         log_file.write(str(num+1)+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+"\n") 
 
         if is_dump:
