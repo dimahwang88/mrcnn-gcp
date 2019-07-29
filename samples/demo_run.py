@@ -82,26 +82,49 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 now = datetime.now()
 date_time = now.strftime("%m%d%Y_%H%M%S")
 #log_filename = '/mnt/bepro-bucket/2019-06-13_id6629/%s/det_%s_%s.txt' % (camera_id, date_time, camera_id)
-log_filename = '/home/dmitriy.khvan/mrcnn-gcp/samples/dump/det_%s_%s.txt' % (date_time, camera_id)
+#log_filename = '/home/dmitriy.khvan/mrcnn-gcp/samples/dump/det_%s_%s.txt' % (date_time, camera_id)
+
+### temp right
+log_filename = '/home/dmitriy.khvan/mrcnn-gcp/samples/dump/det_07052019_184633_right-cam.txt'
 
 webhook_url = 'https://hooks.slack.com/services/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'
-log_file = open(log_filename, 'w')
+#log_file = open(log_filename, 'w')
+
+#### temp left
+log_file = open(log_filename, 'a')
+
+#results.append({
+#    "rois": final_rois,
+#    "class_ids": final_class_ids,
+#    "scores": final_scores,
+#    "masks": final_masks,
+#})
+
 
 for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)):
     start = time.time()    
     image = skimage.io.imread(filename)
     results = model.detect([image], verbose=0)
     r = results[0]
-    #boxes
-    is_dump = (num % 500 == 0)
- #   dump_path = "/mnt/bepro-bucket/2019-06-13_id6629/%s/dump-%06d.jpg" %(camera_id, num+1)
-    dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/dump-%06d.jpg" %(num+1)
+    
+    class_id = r['class_ids']
+    det_score = r['scores']
+
+    print('classes')
+    print(class_id)
+    print('scores')
+    print(det_score)    
+
+    is_dump = (num % 500 == 0) 
+
+    dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/dump-%06d.jpg" %(num+1)
     N = r['rois'].shape[0]
     
     for i in range(N):
         y1, x1, y2, x2 = r['rois'][i]
+
         log_file.write(str(num+1)+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+"\n") 
-        
+
         if is_dump:
             cv2.rectangle(image, (x1, y1), (x2, y2), (255,0,0), 2)
     if is_dump:
