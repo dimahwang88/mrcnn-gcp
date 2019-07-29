@@ -16,6 +16,8 @@ from datetime import datetime
 
 # Root directory of the project
 camera_id = sys.argv[1]
+start_frame_idx = sys.argv[2]
+
 ROOT_DIR = os.path.abspath("../")
 
 # Import Mask RCNN
@@ -114,7 +116,7 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
             continue
 
         y1, x1, y2, x2 = r['rois'][i]
-        log_file.write(str(num+1)+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+','+str(det_score[i])+"\n") 
+        log_file.write(str(num+start_frame_idx)+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+','+str(det_score[i])+"\n") 
 
         if is_dump:
             cv2.rectangle(image, (x1, y1), (x2, y2), (255,0,0), 2)
