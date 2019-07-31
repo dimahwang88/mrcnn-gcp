@@ -46,8 +46,6 @@ if not os.path.exists(COCO_MODEL_PATH):
 # Directory of images to run detection on
 #IMAGE_DIR = '/home/dmitriy.khvan/ffmpeg-img/'
 IMAGE_DIR = '/mnt/bepro-data/data/%s/img1/' % (rec_id)
-print ('Processing recording id: ' + rec_id)
-print ('Path to image folder: ' + IMAGE_DIR)
 
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
@@ -99,6 +97,8 @@ log_file = open(log_filename, 'w')
 #    "masks": final_masks,
 #})
 
+print ('Processing recording id: ' + rec_id)
+print ('Path to image folder: ' + IMAGE_DIR)
 
 for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)):
     start = time.time()    
