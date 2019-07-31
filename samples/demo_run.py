@@ -17,6 +17,7 @@ from datetime import datetime
 # Root directory of the project
 camera_id = sys.argv[1]
 start_frame_idx = sys.argv[2]
+rec_id = sys.argv[3]
 
 ROOT_DIR = os.path.abspath("../")
 
@@ -44,7 +45,9 @@ if not os.path.exists(COCO_MODEL_PATH):
 
 # Directory of images to run detection on
 #IMAGE_DIR = '/home/dmitriy.khvan/ffmpeg-img/'
-IMAGE_DIR = '/mnt/bepro-data/data/8029/img1/'
+IMAGE_DIR = '/mnt/bepro-data/data/%s/img1/' % (rec_id)
+print ('Processing recording id: ' + rec_id)
+print ('Path to image folder: ' + IMAGE_DIR)
 
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
