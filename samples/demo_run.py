@@ -110,7 +110,7 @@ for y in range(0, h):
     for x in range(0, w):
         if mask[y,x,0] == 0 and mask[y,x,1] == 0 and mask[y,x,2] == 0:
             continue
-        else
+        else:
             mask[y,x,0] = 255
             mask[y,x,1] = 255
             mask[y,x,1] = 255
