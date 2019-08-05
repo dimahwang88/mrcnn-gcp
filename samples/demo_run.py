@@ -121,9 +121,10 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     start = time.time()    
 
     image = skimage.io.imread(filename)
+    #image = cv2.imread(filename)
     image = cv2.bitwise_and(image, mask)
 
-    cv2.imwrite('masked_img.jpg', mask)
+    cv2.imwrite('masked_img.jpg', image)
 
     results = model.detect([image], verbose=0)
     r = results[0]
