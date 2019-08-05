@@ -113,7 +113,7 @@ for y in range(0, h):
         else:
             mask[y,x,0] = 255
             mask[y,x,1] = 255
-            mask[y,x,1] = 255
+            mask[y,x,2] = 255
 
 cv2.imwrite('mask.jpg', mask)
 
