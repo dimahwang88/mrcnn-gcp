@@ -115,16 +115,12 @@ for y in range(0, h):
             mask[y,x,1] = 255
             mask[y,x,2] = 255
 
-cv2.imwrite('mask.jpg', mask)
-
 for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)):
     start = time.time()    
 
     image = skimage.io.imread(filename)
-    #image = cv2.imread(filename)
+    _img = image.copy()    
     image = cv2.bitwise_and(image, mask)
-
-    cv2.imwrite('masked_img.jpg', image)
 
     results = model.detect([image], verbose=0)
     r = results[0]
@@ -145,9 +141,9 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
         log_file.write(str(num+int(start_frame_idx))+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+','+str(det_score[i])+"\n") 
 
         if is_dump:
-            cv2.rectangle(image, (x1, y1), (x2, y2), (255,0,0), 2)
+            cv2.rectangle(_img, (x1, y1), (x2, y2), (255,0,0), 2)
     if is_dump:
-        cv2.imwrite(dump_path,cv2.cvtColor(image, cv2.COLOR_RGB2BGR)) 
+        cv2.imwrite(dump_path,cv2.cvtColor(_img, cv2.COLOR_RGB2BGR)) 
         
         #https://stackoverflow.com/questions/19756329/can-i-save-a-text-file-in-python-without-closing-it
         log_file.flush()
