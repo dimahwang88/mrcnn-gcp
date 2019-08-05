@@ -18,6 +18,7 @@ from datetime import datetime
 camera_id = sys.argv[1]
 start_frame_idx = sys.argv[2]
 rec_id = sys.argv[3]
+mask_path = sys.argv[4]
 
 ROOT_DIR = os.path.abspath("../")
 
@@ -100,9 +101,30 @@ log_file = open(log_filename, 'w')
 print ('Processing recording id: ' + rec_id)
 print ('Path to image folder: ' + IMAGE_DIR)
 
+mask = cv2.imread(mask_path)
+
+y = mask.shape[0]
+x = mask.shape[1]
+
+for y in range(0, h):
+    for x in range(0, w):
+        if mask[y,x,0] == 0 and mask[y,x,1] == 0 and mask[y,x,2] == 0:
+            continue
+        else
+            mask[y,x,0] = 255
+            mask[y,x,1] = 255
+            mask[y,x,1] = 255
+
+cv2.imwrite('mask.jpg', mask)
+
 for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)):
     start = time.time()    
+
     image = skimage.io.imread(filename)
+    image = cv2.bitwise_and(image, mask)
+
+    cv2.imwrite('masked_img.jpg', mask)
+
     results = model.detect([image], verbose=0)
     r = results[0]
     
