@@ -103,8 +103,8 @@ print ('Path to image folder: ' + IMAGE_DIR)
 
 mask = cv2.imread(mask_path)
 
-y = mask.shape[0]
-x = mask.shape[1]
+h = mask.shape[0]
+w = mask.shape[1]
 
 for y in range(0, h):
     for x in range(0, w):
