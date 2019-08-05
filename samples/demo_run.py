@@ -119,7 +119,6 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     start = time.time()    
 
     image = skimage.io.imread(filename)
-    _img = image.copy()    
     image = cv2.bitwise_and(image, mask)
 
     results = model.detect([image], verbose=0)
@@ -133,6 +132,9 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/dump-%06d.jpg" %(num+int(start_frame_idx))
     N = r['rois'].shape[0]
 
+    if is_dump:
+        d_image = skimage.io.imread(filename)
+
     for i in range(N):
         if class_id[i] != 1 or det_score[i] < 0.60:
             continue
@@ -141,9 +143,9 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
         log_file.write(str(num+int(start_frame_idx))+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+','+str(det_score[i])+"\n") 
 
         if is_dump:
-            cv2.rectangle(_img, (x1, y1), (x2, y2), (255,0,0), 2)
+            cv2.rectangle(d_image, (x1, y1), (x2, y2), (255,0,0), 2)
     if is_dump:
-        cv2.imwrite(dump_path,cv2.cvtColor(_img, cv2.COLOR_RGB2BGR)) 
+        cv2.imwrite(dump_path,cv2.cvtColor(d_image, cv2.COLOR_RGB2BGR)) 
         
         #https://stackoverflow.com/questions/19756329/can-i-save-a-text-file-in-python-without-closing-it
         log_file.flush()
