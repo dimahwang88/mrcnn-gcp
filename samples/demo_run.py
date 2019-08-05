@@ -120,9 +120,8 @@ cv2.imwrite('mask.jpg', mask)
 for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)):
     start = time.time()    
 
-    #image = skimage.io.imread(filename)
-
-    image = cv2.imread(filename)
+    image = skimage.io.imread(filename)
+    #image = cv2.imread(filename)
     image = cv2.bitwise_and(image, mask)
 
     cv2.imwrite('masked_img.jpg', image)
