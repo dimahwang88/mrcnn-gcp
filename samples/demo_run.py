@@ -136,8 +136,8 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
         d_image = skimage.io.imread(filename)
 
     for i in range(N):
-        if class_id[i] != 1 or det_score[i] < 0.70:
-            continue
+        #if class_id[i] != 1 or det_score[i] < 0.50:
+        #    continue
 
         y1, x1, y2, x2 = r['rois'][i]
         log_file.write(str(num+int(start_frame_idx))+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+','+str(det_score[i])+"\n") 
