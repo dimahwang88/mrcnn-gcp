@@ -177,10 +177,10 @@ class Config(object):
 
     # Minimum probability value to accept a detected instance
     # ROIs below this threshold are skipped
-    DETECTION_MIN_CONFIDENCE = 0.4
+    DETECTION_MIN_CONFIDENCE = 0.3
 
     # Non-maximum suppression threshold for detection
-    DETECTION_NMS_THRESHOLD = 0.15
+    DETECTION_NMS_THRESHOLD = 0.10
 
     # Learning rate and momentum
     # The Mask RCNN paper uses lr=0.02, but on TensorFlow it causes
