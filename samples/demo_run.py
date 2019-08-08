@@ -143,7 +143,7 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
         y1, x1, y2, x2 = r['rois'][i]
 
         # height threshold
-        if (y2-y1) <= 30:
+        if (y2-y1) <= 35:
             continue
 
         log_file.write(str(num+int(start_frame_idx))+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+','+str(det_score[i])+"\n") 
