@@ -175,5 +175,5 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
 log_file.close()
 #slack_msg4 = {'text': 'detection finished at frame : ' + str(num) + ' .Check results!'}
 print('detection finished at frame : ' + str(num) + ' .Check results!')
-requests.post(webhook_url, json.dumps(slack_msg4))  
+#requests.post(webhook_url, json.dumps(slack_msg4))  
         
