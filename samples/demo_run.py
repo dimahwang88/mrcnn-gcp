@@ -162,14 +162,18 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
         #requests.post(webhook_url, json.dumps(slack_msg3))  
 
     end = time.time()
-    slack_msg1 = {'text': 'processing input: ' + filename + '-' +str(camera_id)}
-    slack_msg2 = {'text': 'processing time per frame: ' + str(end-start) + ' s.'}    
+#    slack_msg1 = {'text': 'processing input: ' + filename + '-' +str(camera_id)}
+#    slack_msg2 = {'text': 'processing time per frame: ' + str(end-start) + ' s.'}    
     
     if num % 100 == 0:
-        requests.post(webhook_url, json.dumps(slack_msg1))        
-        requests.post(webhook_url, json.dumps(slack_msg2))  
+#        requests.post(webhook_url, json.dumps(slack_msg1))        
+#        requests.post(webhook_url, json.dumps(slack_msg2))  
+        print('text': 'processing input: ' + filename + '-' +str(camera_id))
+        print('text': 'processing time per frame: ' + str(end-start) + ' s.')
+
 
 log_file.close()
-slack_msg4 = {'text': 'detection finished at frame : ' + str(num) + ' .Check results!'}
+#slack_msg4 = {'text': 'detection finished at frame : ' + str(num) + ' .Check results!'}
+print('text': 'detection finished at frame : ' + str(num) + ' .Check results!')
 requests.post(webhook_url, json.dumps(slack_msg4))  
         
