@@ -176,7 +176,7 @@ class Config(object):
     DETECTION_MIN_CONFIDENCE = 0.60
 
     # Non-maximum suppression threshold for detection
-    DETECTION_NMS_THRESHOLD = 0.20
+    DETECTION_NMS_THRESHOLD = 0.60
 
     # Learning rate and momentum
     # The Mask RCNN paper uses lr=0.02, but on TensorFlow it causes
