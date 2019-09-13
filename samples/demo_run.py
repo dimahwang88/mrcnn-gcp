@@ -116,6 +116,8 @@ for y in range(0, h):
             mask[y,x,1] = 255
             mask[y,x,2] = 255
 
+start_process = time.time()
+
 for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)):
     start = time.time()    
 
@@ -174,7 +176,13 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
 
 
 log_file.close()
+end_process = time.time()
+
 slack_msg4 = {'text': 'detection finished at frame : ' + str(num) + ' .Check results!'}
-#print('detection finished at frame : ' + str(num) + ' .Check results!')
 requests.post(webhook_url, json.dumps(slack_msg4))  
-        
+
+slack_msg5 = {'text': 'Total processing time : ' + str(end_process - start_process) + ' .s'}
+requests.post(webhook_url, json.dumps(slack_msg5))  
+
+#print('detection finished at frame : ' + str(num) + ' .Check results!')
+
