@@ -88,7 +88,8 @@ now = datetime.now()
 date_time = now.strftime("%m%d%Y_%H%M%S")
 log_filename = '/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/det_%s_%s.txt' % (date_time, camera_id)
 
-webhook_url = 'https://hooks.slack.com/services/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'
+webhook_url = 'https://hooks.slack.com/services/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'
+
 log_file = open(log_filename, 'w')
 
 #results.append({
@@ -158,22 +159,22 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
         # typically the above line would do. however this is used to ensure that the file is written
         os.fsync(log_file.fileno()) 
 
-        #slack_msg3 = {'text': 'frame: ' + str(num) + ' dumped: ' + dump_path}
-        #requests.post(webhook_url, json.dumps(slack_msg3))  
+        slack_msg3 = {'text': 'frame: ' + str(num) + ' dumped: ' + dump_path}
+        requests.post(webhook_url, json.dumps(slack_msg3))  
 
     end = time.time()
-#    slack_msg1 = {'text': 'processing input: ' + filename + '-' +str(camera_id)}
-#    slack_msg2 = {'text': 'processing time per frame: ' + str(end-start) + ' s.'}    
+    slack_msg1 = {'text': 'processing input: ' + filename + '-' +str(camera_id)}
+    slack_msg2 = {'text': 'processing time per frame: ' + str(end-start) + ' s.'}    
     
     if num % 100 == 0:
-#        requests.post(webhook_url, json.dumps(slack_msg1))        
-#        requests.post(webhook_url, json.dumps(slack_msg2))  
-        print('processing input: ' + filename + '-' +str(camera_id))
-        print('processing time per frame: ' + str(end-start) + ' s.')
+        requests.post(webhook_url, json.dumps(slack_msg1))        
+        requests.post(webhook_url, json.dumps(slack_msg2))  
+#        print('processing input: ' + filename + '-' +str(camera_id))
+#        print('processing time per frame: ' + str(end-start) + ' s.')
 
 
 log_file.close()
-#slack_msg4 = {'text': 'detection finished at frame : ' + str(num) + ' .Check results!'}
-print('detection finished at frame : ' + str(num) + ' .Check results!')
-#requests.post(webhook_url, json.dumps(slack_msg4))  
+slack_msg4 = {'text': 'detection finished at frame : ' + str(num) + ' .Check results!'}
+#print('detection finished at frame : ' + str(num) + ' .Check results!')
+requests.post(webhook_url, json.dumps(slack_msg4))  
         
