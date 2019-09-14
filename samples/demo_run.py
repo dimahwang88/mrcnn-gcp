@@ -18,7 +18,6 @@ from datetime import datetime
 camera_id = sys.argv[1]
 start_frame_idx = sys.argv[2]
 rec_id = sys.argv[3]
-mask_path = sys.argv[4]
 
 ROOT_DIR = os.path.abspath("../")
 
@@ -47,6 +46,7 @@ if not os.path.exists(COCO_MODEL_PATH):
 # Directory of images to run detection on
 #IMAGE_DIR = '/home/dmitriy.khvan/ffmpeg-img/'
 IMAGE_DIR = '/mnt/bepro-data/data/%s/img1/' % (rec_id)
+MASK_PATH = '/mnt/bepro-data/data/%s/mask.jpg' % (rec_id)
 
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
@@ -102,7 +102,7 @@ log_file = open(log_filename, 'w')
 print ('Processing recording id: ' + rec_id)
 print ('Path to image folder: ' + IMAGE_DIR)
 
-mask = cv2.imread(mask_path)
+mask = cv2.imread(MASK_PATH)
 
 h = mask.shape[0]
 w = mask.shape[1]
