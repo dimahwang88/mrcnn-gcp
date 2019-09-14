@@ -16,8 +16,7 @@ from datetime import datetime
 
 # Root directory of the project
 camera_id = sys.argv[1]
-start_frame_idx = sys.argv[2]
-rec_id = sys.argv[3]
+rec_id = sys.argv[2]
 
 ROOT_DIR = os.path.abspath("../")
 
@@ -117,6 +116,11 @@ for y in range(0, h):
             mask[y,x,2] = 255
 
 start_process = time.time()
+
+first_frame = sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)[0]
+line = first_frame.split('/')
+start_frame_idx = line[-1][0:5]
+print('[INFO] start frame number: ' + start_frame_idx)
 
 for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)):
     start = time.time()    
