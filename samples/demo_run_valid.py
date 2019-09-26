@@ -17,6 +17,7 @@ from datetime import datetime
 # Root directory of the project
 camera_id = sys.argv[1]
 rec_id = sys.argv[2]
+start_frame_idx = sys.argv[3]
 
 ROOT_DIR = os.path.abspath("../")
 
@@ -101,32 +102,32 @@ log_file = open(log_filename, 'w')
 print ('Processing recording id: ' + rec_id)
 print ('Path to image folder: ' + IMAGE_DIR)
 
-mask = cv2.imread(MASK_PATH)
+#mask = cv2.imread(MASK_PATH)
 
-h = mask.shape[0]
-w = mask.shape[1]
+#h = mask.shape[0]
+#w = mask.shape[1]
 
-for y in range(0, h):
-    for x in range(0, w):
-        if mask[y,x,0] == 0 and mask[y,x,1] == 0 and mask[y,x,2] == 0:
-            continue
-        else:
-            mask[y,x,0] = 255
-            mask[y,x,1] = 255
-            mask[y,x,2] = 255
+#for y in range(0, h):
+#    for x in range(0, w):
+#        if mask[y,x,0] == 0 and mask[y,x,1] == 0 and mask[y,x,2] == 0:
+#            continue
+#        else:
+#            mask[y,x,0] = 255
+#            mask[y,x,1] = 255
+#            mask[y,x,2] = 255
 
 start_process = time.time()
 
-first_frame = sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)[0]
-line = first_frame.split('/')
-start_frame_idx = line[-1][0:5]
-print('[INFO] start frame number: ' + start_frame_idx)
+#first_frame = sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)[0]
+#line = first_frame.split('/')
+#start_frame_idx = line[-1][0:5]
+#print('[INFO] start frame number: ' + start_frame_idx)
 
 for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)):
     start = time.time()    
 
     image = skimage.io.imread(filename)
-    image = cv2.bitwise_and(image, mask)
+    #image = cv2.bitwise_and(image, mask)
 
     results = model.detect([image], verbose=0)
     r = results[0]
@@ -134,60 +135,34 @@ for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg'))
     class_id = r['class_ids']
     det_score = r['scores']
 
-    is_dump = (num % 250 == 0) 
-
-    dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/dump-%06d.jpg" %(num+int(start_frame_idx))
+    dump_path = "/home/dmitriy.khvan/mrcnn-gcp/samples/dump/tmp/dump-%06d.jpg" % (num+int(start_frame_idx))
     N = r['rois'].shape[0]
 
-    if is_dump:
-        d_image = skimage.io.imread(filename)
+    #d_image = skimage.io.imread(filename)
 
     for i in range(N):
+
         # if not person class
         if class_id[i] != 1:
             continue
 
         y1, x1, y2, x2 = r['rois'][i]
-
-        # height threshold
-        if (y2-y1) <= 35:
-            continue
-
         log_file.write(str(num+int(start_frame_idx))+","+str(x1)+","+str(y1)+","+str(x2)+","+str(y2)+','+str(det_score[i])+"\n") 
-
-        if is_dump:
-            cv2.rectangle(d_image, (x1, y1), (x2, y2), (255,0,0), 2)
     
-    if is_dump:
-        cv2.imwrite(dump_path,cv2.cvtColor(d_image, cv2.COLOR_RGB2BGR)) 
+        cv2.rectangle(image, (x1, y1), (x2, y2), (255,0,0), 2)
         
-        #https://stackoverflow.com/questions/19756329/can-i-save-a-text-file-in-python-without-closing-it
-        log_file.flush()
-        # typically the above line would do. however this is used to ensure that the file is written
-        os.fsync(log_file.fileno()) 
-
-        slack_msg3 = {'text': 'frame: ' + str(num) + ' dumped: ' + dump_path}
-        requests.post(webhook_url, json.dumps(slack_msg3))  
+    log_file.flush()
+    os.fsync(log_file.fileno()) 
+    
+    cv2.imwrite(dump_path,cv2.cvtColor(image, cv2.COLOR_RGB2BGR)) 
 
     end = time.time()
-    slack_msg1 = {'text': 'processing input: ' + filename + '-' +str(camera_id)}
-    slack_msg2 = {'text': 'processing time per frame: ' + str(end-start) + ' s.'}    
     
-    if num % 100 == 0:
-        requests.post(webhook_url, json.dumps(slack_msg1))        
-        requests.post(webhook_url, json.dumps(slack_msg2))  
-#        print('processing input: ' + filename + '-' +str(camera_id))
-#        print('processing time per frame: ' + str(end-start) + ' s.')
+    print('processing input: ' + filename + '-' +str(camera_id))
+    print('processing time per frame: ' + str(end-start) + ' s.')
 
 
 log_file.close()
 end_process = time.time()
 
-slack_msg4 = {'text': 'detection finished at frame : ' + str(num) + ' .Check results!'}
-requests.post(webhook_url, json.dumps(slack_msg4))  
-
-slack_msg5 = {'text': 'Total processing time : ' + str(end_process - start_process) + ' .s'}
-requests.post(webhook_url, json.dumps(slack_msg5))  
-
-#print('detection finished at frame : ' + str(num) + ' .Check results!')
-
+print('detection finished at frame : ' + str(num) + ' .Check results!')
