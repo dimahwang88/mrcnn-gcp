@@ -123,7 +123,7 @@ start_process = time.time()
 #start_frame_idx = line[-1][0:5]
 #print('[INFO] start frame number: ' + start_frame_idx)
 
-for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')),key=os.path.getmtime)):
+for num, filename in enumerate(sorted(glob.glob(os.path.join(IMAGE_DIR,'*.jpg')))):
     start = time.time()    
 
     image = skimage.io.imread(filename)
